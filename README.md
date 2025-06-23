@@ -57,11 +57,13 @@ Experience WanderLust live! Visit the deployed application:
 
 ## 📸 Screenshots
 
-### 🏠 Home Page
-![Home Page]
+[main page](https://github.com/user-attachments/assets/353292de-3b24-4ef6-8be5-660ece0fd047)
+![main page](https://github.com/user-attachments/assets/6a8fbf9d-a5f8-46ac-b157-9c83a0bac766)
+![login page](https://github.com/user-attachments/assets/8a3ebff4-d291-4e55-a353-301d6dedaea0)
+![details page](https://github.com/user-attachments/assets/81fa07c3-4d86-42c7-bbd4-3b778e538a2d)
+![signup page](https://github.com/user-attachments/assets/11ddd1e3-6c55-49f6-9027-1d7595964ba1)
+![profile page](https://github.com/user-attachments/assets/cec36a4c-7f2f-4948-ad4d-b028106ae0e3)
 
-### 🔐 Login Page
-![Login Page]
 
 > ✔️ **Note:** This project is responsive and works smoothly on mobile and tablet devices too.  
 > 🔍 You can check all features like listing, filtering, login, adding reviews, and more on the **[Live Project](https://your-onrender-url.onrender.com)**.
