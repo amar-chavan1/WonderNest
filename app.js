@@ -22,13 +22,13 @@ const User = require('./models/user.js');
 const Listing = require('./models/listing.js');
 const { isLoggedIn } = require('./middleware.js');
 const wrapAsync = require("./utils/wrapAsync.js");
-
+const morgan = require('morgan');
 
 
 
 // --- Database Connection ---
 main()
-    .then(() => console.log('Connected to MongoDB  ATLAS'))
+    .then(() => console.log('Connected to MongoDB ATLAS'))
     .catch(err => console.error('Error connecting to MongoDB:', err.message));
 async function main() {
     mongoose.connect(ATLAS_URL);
@@ -43,6 +43,7 @@ app.engine('ejs', ejsMate); // EJS Mate engine setup
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(methodOverride('_method')); // Override HTTP methods
+app.use(morgan('combined')); // Log every request
 
 
 // --- mongo storesetup
@@ -149,10 +150,7 @@ app.use((err, req, res, next) => {
 
 // --- Start Server ---
 app.listen(8080, () => {
-    console.log('Server is listening on http://localhost:8080');
+    console.log('Server Started....');
 });
 
-// For testing on mobile (uncomment if needed)
-// app.listen(3000, '0.0.0.0', () => {
-//   console.log("Server running on http://0.0.0.0:3000");
-// });
+
