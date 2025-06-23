@@ -1,0 +1,182 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row mt-5 mb-5 justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card p-4 shadow-lg border-0 create-listing-card">
+            <h3 class="mb-4 text-center text-primary fw-bold">Host Your New Place</h3>
+            <hr class="mb-4">
+
+            <form action="/listings" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+                
+                <div class="mb-4 form-group-with-icon">
+                    <label for="title" class="form-label d-flex align-items-center">
+                        <i class="fas fa-heading me-2 text-secondary"></i> Title
+                    </label>
+                    <input type="text" name="listing[title]" id="title" class="form-control styled-input" placeholder="A cozy cabin, a vibrant city apartment..." required>
+                    <div class="invalid-feedback">Please provide a descriptive title for your listing.</div>
+                </div>
+                
+                <div class="mb-4 form-group-with-icon">
+                    <label for="description" class="form-label d-flex align-items-center">
+                        <i class="fas fa-align-left me-2 text-secondary"></i> Description
+                    </label>
+                    <textarea name="listing[description]" id="description" class="form-control styled-textarea" placeholder="Tell guests about your unique space and what makes it special." rows="4" required></textarea>
+                    <div class="invalid-feedback">Please provide a detailed description.</div>
+                </div>
+                
+                <div class="mb-4 form-group-with-icon">
+                    <label for="image" class="form-label d-flex align-items-center">
+                        <i class="fas fa-camera me-2 text-secondary"></i> Upload Image
+                    </label>
+                    <input type="file" name="listing[image]" id="image" class="form-control styled-file-input" required>
+                    <div class="invalid-feedback">A picture is worth a thousand words! Please upload an image.</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4 form-group-with-icon">
+                        <label for="location" class="form-label d-flex align-items-center">
+                            <i class="fas fa-map-marker-alt me-2 text-secondary"></i> Location
+                        </label>
+                        <input type="text" name="listing[location]" id="location" class="form-control styled-input" placeholder="E.g., Mumbai, Paris" required>
+                        <div class="invalid-feedback">Where is your place located? Please provide a location.</div>
+                    </div>
+                    <div class="col-md-6 mb-4 form-group-with-icon">
+                        <label for="country" class="form-label d-flex align-items-center">
+                            <i class="fas fa-globe-americas me-2 text-secondary"></i> Country
+                        </label>
+                        <input type="text" name="listing[country]" id="country" class="form-control styled-input" placeholder="E.g., India, France" required>
+                        <div class="invalid-feedback">Which country is your place in?</div>
+                    </div>
+                </div>
+
+                <div class="mb-4 form-group-with-icon">
+                    <label for="category" class="form-label d-flex align-items-center">
+                        <i class="fas fa-tags me-2 text-secondary"></i> Category
+                    </label>
+                    <select class="form-select styled-select" name="listing[category]" id="category" required>
+                        <option value="" disabled selected>Select a Category that best describes your place...</option>
+                        <option value="Trending">Trending</option>
+                        <option value="Rooms">Rooms</option>
+                        <option value="Mountain">Mountain</option>
+                        <option value="Pools">Amazing Pools</option>
+                        <option value="Beachfront">Beachfront</option>
+                        <option value="Cabins">Cabins</option>
+                        <option value="Castles">Castles</option>
+                        <option value="Camping">Camping</option>
+                        <option value="Farms">Farms</option>
+                        <option value="Arctic">Arctic</option>
+                        <option value="Domes">Domes</option>
+                        <option value="Boats">Boats</option>
+                        <option value="Ski-in/out">Ski-in/out</option>
+                        <option value="Treehouses">Treehouses</option>
+                        <option value="Tiny homes">Tiny homes</option>
+                        <option value="Lux">Lux</option>
+                        <option value="A-frames">A-frames</option>
+                        <option value="Lakefront">Lakefront</option>
+                        <option value="Desert">Desert</option>
+                        <option value="Islands">Islands</option>
+                        <option value="Historical homes">Historical homes</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a category for your listing.</div>
+                </div>
+
+                <div class="mb-4 form-group-with-icon">
+                    <label for="price" class="form-label d-flex align-items-center">
+                        <i class="fas fa-dollar-sign me-2 text-secondary"></i> Price per Night
+                    </label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text styled-input-group-text">&#8377</span>
+                        <input type="number" name="listing[price]" id="price" class="form-control styled-input" placeholder="Set your nightly price" required min="0">
+                        <div class="invalid-feedback">Please provide a valid price (minimum &#8377;0).</div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-sm mt-3 styled-submit-btn">
+                        <i class="fas fa-plus-circle me-2"></i> Add Your WanderNest
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles for Advanced Form Look */
+    .create-listing-card {
+        border-radius: 15px; /* Softer rounded corners for the card */
+        background-color: #ffffff; /* White background */
+    }
+
+    .create-listing-card h3 {
+        color: #ff385c !important; /* Airbnb-like red for the heading */
+        font-size: 1.8rem;
+    }
+
+    .create-listing-card hr {
+        border-top: 2px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    /* Style for all form controls */
+    .styled-input,
+    .styled-textarea,
+    .styled-select {
+        border: 1px solid #ced4da;
+        border-radius: 8px; /* Slightly more rounded than default Bootstrap */
+        padding: 0.8rem 1rem;
+        transition: all 0.3s ease-in-out;
+        box-shadow: none; /* Remove default focus shadow */
+    }
+
+
+    .styled-input::placeholder,
+    .styled-textarea::placeholder {
+        color: #a0a0a0;
+        font-style: italic;
+    }
+
+    /* Input group text for price */
+    .styled-input-group-text {
+        background-color: #f8f9fa; /* Light background for the currency symbol */
+        border: 1px solid #ced4da;
+        border-right: none; /* Connects smoothly to the input */
+        border-radius: 8px 0 0 8px; /* Match input's left border radius */
+        color: #495057;
+    }
+
+    /* File input specific styling (can be tricky to style consistently across browsers) */
+    .styled-file-input {
+        /* This one is harder to get a custom look universally.
+           You might need a custom file input component for a truly advanced look.
+           For now, it will inherit basic styles from form-control. */
+        padding: 0.8rem 1rem; /* Adjust padding */
+    }
+
+    /* Custom submit button style */
+    .styled-submit-btn {
+      width: 20rem !important;
+        background-color: #ff385c; /* Airbnb-like red */
+        border-color: #ff385c;
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px; /* Pill shape */
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 8px rgba(255, 56, 92, 0.2); /* Subtle button shadow */
+    }
+
+    .styled-submit-btn:hover {
+        background-color: #e0004f; /* Darker red on hover */
+        border-color: #e0004f;
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 6px 12px rgba(255, 56, 92, 0.3); /* Enhanced shadow on hover */
+    }
+
+    /* Icon styling for labels */
+    .form-group-with-icon label i {
+        font-size: 1.1rem;
+        color: #111111;
+    }
+</style>

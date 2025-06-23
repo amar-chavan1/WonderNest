@@ -1,0 +1,140 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="category-filters-container">
+    <div class="category-filters">
+        <a href="/listings" class="category-item <%= typeof selectedCategory !== 'undefined' && (selectedCategory === 'all' || selectedCategory === 'Trending') ? 'active' : '' %>">
+            <i class="fa-solid fa-fire"></i>
+            <p>Trending</p>
+        </a>
+        <a href="/listings?category=Rooms" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Rooms' ? 'active' : '' %>">
+            <i class="fa-solid fa-bed"></i> 
+            <p>Rooms</p>
+        </a>
+        <a href="/listings?category=Mountain" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Mountain' ? 'active' : '' %>">
+            <i class="fa-solid fa-mountain"></i>
+            <p>Mountain</p>
+        </a>
+        <a href="/listings?category=Pools" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Pools' ? 'active' : '' %>">
+            <i class="fa-solid fa-swimming-pool"></i>
+            <p>Amazing Pools</p>
+        </a>
+        <a href="/listings?category=Beachfront" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Beachfront' ? 'active' : '' %>">
+            <i class="fa-solid fa-umbrella-beach"></i> <p>Beachfront</p>
+        </a>
+        <a href="/listings?category=Cabins" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Cabins' ? 'active' : '' %>">
+            <i class="fa-solid fa-house-chimney-window"></i> <p>Cabins</p>
+        </a>
+        <a href="/listings?category=Castles" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Castles' ? 'active' : '' %>">
+            <i class="fa-solid fa-chess-rook"></i>
+            <p>Castles</p>
+        </a>
+        <a href="/listings?category=Camping" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Camping' ? 'active' : '' %>">
+            <i class="fa-solid fa-campground"></i>
+            <p>Camping</p>
+        </a>
+        <a href="/listings?category=Farms" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Farms' ? 'active' : '' %>">
+            <i class="fa-solid fa-tractor"></i> <p>Farms</p>
+        </a>
+        <a href="/listings?category=Arctic" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Arctic' ? 'active' : '' %>">
+            <i class="fa-solid fa-snowflake"></i> <p>Arctic</p>
+        </a>
+        <a href="/listings?category=Domes" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Domes' ? 'active' : '' %>">
+            <i class="fa-solid fa-igloo"></i> <p>Domes</p>
+        </a>
+        <a href="/listings?category=Boats" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Boats' ? 'active' : '' %>">
+            <i class="fa-solid fa-sailboat"></i> <p>Boats</p>
+        </a>
+        <a href="/listings?category=Ski-in/out" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Ski-in/out' ? 'active' : '' %>">
+            <i class="fa-solid fa-snowplow"></i> <p>Ski-in/out</p>
+        </a>
+        <a href="/listings?category=Treehouses" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Treehouses' ? 'active' : '' %>">
+            <i class="fa-solid fa-tree"></i> <p>Treehouses</p>
+        </a>
+        <a href="/listings?category=Tiny homes" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Tiny homes' ? 'active' : '' %>">
+            <i class="fa-solid fa-house-crack"></i> <p>Tiny homes</p>
+        </a>
+        <a href="/listings?category=Lux" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Lux' ? 'active' : '' %>">
+            <i class="fa-solid fa-gem"></i> <p>Lux</p>
+        </a>
+        <a href="/listings?category=A-frames" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'A-frames' ? 'active' : '' %>">
+            <i class="fa-solid fa-house-fire"></i> <p>A-frames</p>
+        </a>
+        <a href="/listings?category=Lakefront" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Lakefront' ? 'active' : '' %>">
+            <i class="fa-solid fa-water"></i> <p>Lakefront</p>
+        </a>
+        <a href="/listings?category=Desert" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Desert' ? 'active' : '' %>">
+            <i class="fa-solid fa-sun"></i> <p>Desert</p>
+        </a>
+        <a href="/listings?category=Islands" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Islands' ? 'active' : '' %>">
+            <i class="fa-solid fa-person-swimming"></i> <p>Islands</p>
+        </a>
+        <a href="/listings?category=Historical homes" class="category-item <%= typeof selectedCategory !== 'undefined' && selectedCategory === 'Historical homes' ? 'active' : '' %>">
+            <i class="fa-solid fa-archway"></i> <p>Historical homes</p>
+        </a>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+        <% 
+            let title = 'Homes for You'; // Default title
+
+            // Define a map for user-friendly category names (matching the enum values)
+            const categoryTitles = {
+                'all': 'Homes for You',
+                'Trending': 'Trending Homes',
+                'Rooms': 'Rooms & Private Stays',
+                'Mountain': 'Mountain Escapes',
+                'Pools': 'Homes with Amazing Pools',
+                'Beachfront': 'Beachfront Properties',
+                'Cabins': 'Cozy Cabins',
+                'Castles': 'Castles & Historic Towers',
+                'Camping': 'Camping & Glamping',
+                'Farms': 'Farm Stays',
+                'Arctic': 'Arctic Adventures',
+                'Domes': 'Dome Stays',
+                'Boats': 'Houseboats & Boats',
+                'Ski-in/out': 'Ski-in/Ski-out Chalets',
+                'Treehouses': 'Treehouses',
+                'Tiny homes': 'Tiny Homes',
+                'Lux': 'Luxury Stays',
+                'A-frames': 'A-Frame Houses',
+                'Lakefront': 'Lakefront Retreats',
+                'Desert': 'Desert Escapes',
+                'Islands': 'Island Paradises',
+                'Historical homes': 'Historical Homes'
+            };
+
+            // Check if selectedCategory exists and has a mapping
+            if (selectedCategory && categoryTitles[selectedCategory]) {
+                title = categoryTitles[selectedCategory];
+            } else if (selectedCategory === 'all') { // Handle 'all' explicitly for "Homes for You"
+                title = categoryTitles['all'];
+            }
+        %>
+        <%= title %> 
+    </h1>
+    <div class="form-check form-switch tax-toggle">
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes (18% GST)</label>
+    </div>
+</div>
+
+<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4">
+    <% for(let listing of listings) { %> 
+        <a href="/listings/<%= listing._id %>" class="col listing-card-link" data-price="<%= listing.price %>"> 
+            <div class="card listing-card">
+                <img src="<%=listing.image.url%>" class="card-img-top" alt="listing image">
+                <div class="card-body">
+                    <p class="card-text">
+                        <b><%=listing.title%></b><br>
+                        <span class="text-muted"><%=listing.location%></span> <br> 
+                        <span class="listing-price-display">
+                            <b>&#8377 <%=listing.price.toLocaleString("en-IN")%></b> per night
+                        </span>
+                    </p>
+                </div>
+            </div>  
+        </a>
+    <%}%>
+</div>

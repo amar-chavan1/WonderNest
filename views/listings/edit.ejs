@@ -1,0 +1,193 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row mt-5 mb-5 justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card p-4 shadow-lg border-0 create-listing-card">
+            <h3 class="mb-4 text-center text-primary fw-bold">Edit Your Listing</h3>
+            <hr class="mb-4">
+
+            <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+                <!-- Title -->
+                <div class="mb-4 form-group-with-icon">
+                    <label for="title" class="form-label d-flex align-items-center">
+                        <i class="fas fa-heading me-2 text-secondary"></i> Title
+                    </label>
+                    <input type="text" name="listing[title]" id="title" class="form-control styled-input" value="<%= listing.title %>" required>
+                    <div class="invalid-feedback">Please provide a title.</div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-4 form-group-with-icon">
+                    <label for="description" class="form-label d-flex align-items-center">
+                        <i class="fas fa-align-left me-2 text-secondary"></i> Description
+                    </label>
+                    <textarea name="listing[description]" id="description" class="form-control styled-textarea" rows="4" required><%= listing.description %></textarea>
+                    <div class="invalid-feedback">Please provide a description.</div>
+                </div>
+
+                <!-- Current Image + Upload New -->
+                <div class="mb-4">
+                    <label class="form-label d-flex align-items-center mb-2">
+                        <i class="fas fa-image me-2 text-secondary"></i> Current Image
+                    </label>
+                    <% if (listing.image && listing.image.url) { %>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="<%= listing.image.url %>" class="img-thumbnail me-2" style="max-width: 100px; max-height: 100px; object-fit: cover;" alt="Current Listing Image">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#imageModal" data-image-url="<%= listing.image.url %>">
+                                <i class="bi bi-eye-fill"></i> View Current Image
+                            </button>
+                        </div>
+                    <% } else { %>
+                        <p class="text-muted">No image uploaded.</p>
+                    <% } %>
+
+                    <label for="image" class="form-label d-flex align-items-center mt-3">
+                        <i class="fas fa-camera me-2 text-secondary"></i> Upload New Image
+                    </label>
+                    <input type="file" name="listing[image]" id="image" class="form-control styled-file-input">
+                    <div class="form-text text-muted">Upload a new image to replace the current one.</div>
+                </div>
+
+                <!-- Modal for Image -->
+                <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img id="modalImage" class="img-fluid" alt="Full Image Preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location + Country -->
+                <div class="row">
+                    <div class="col-md-6 mb-4 form-group-with-icon">
+                        <label for="location" class="form-label d-flex align-items-center">
+                            <i class="fas fa-map-marker-alt me-2 text-secondary"></i> Location
+                        </label>
+                        <input type="text" name="listing[location]" id="location" class="form-control styled-input" value="<%= listing.location %>" required>
+                        <div class="invalid-feedback">Please enter location.</div>
+                    </div>
+
+                    <div class="col-md-6 mb-4 form-group-with-icon">
+                        <label for="country" class="form-label d-flex align-items-center">
+                            <i class="fas fa-globe-americas me-2 text-secondary"></i> Country
+                        </label>
+                        <input type="text" name="listing[country]" id="country" class="form-control styled-input" value="<%= listing.country %>" required>
+                        <div class="invalid-feedback">Please enter country.</div>
+                    </div>
+                </div>
+
+                <!-- Category -->
+                <div class="mb-4 form-group-with-icon">
+                    <label for="category" class="form-label d-flex align-items-center">
+                        <i class="fas fa-tags me-2 text-secondary"></i> Category
+                    </label>
+                    <select class="form-select styled-select" name="listing[category]" id="category" required>
+                        <option disabled>Select a category...</option>
+                        <% const categories = ["Trending", "Rooms", "Mountain", "Pools", "Beachfront", "Cabins", "Castles", "Camping", "Farms", "Arctic", "Domes", "Boats", "Ski-in/out", "Treehouses", "Tiny homes", "Lux", "A-frames", "Lakefront", "Desert", "Islands", "Historical homes"]; %>
+                        <% categories.forEach(cat => { %>
+                            <option value="<%= cat %>" <%= listing.category === cat ? 'selected' : '' %>><%= cat %></option>
+                        <% }); %>
+                    </select>
+                    <div class="invalid-feedback">Please select a category for your listing.</div>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-4 form-group-with-icon">
+                    <label for="price" class="form-label d-flex align-items-center">
+                        <i class="fas fa-dollar-sign me-2 text-secondary"></i> Price per Night
+                    </label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text styled-input-group-text">&#8377;</span>
+                        <input type="number" name="listing[price]" id="price" class="form-control styled-input" value="<%= listing.price %>" min="0" required>
+                        <div class="invalid-feedback">Enter a valid price (₹0 or more).</div>
+                    </div>
+                </div>
+
+
+                <!-- Submit -->
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-sm mt-3 styled-submit-btn">
+                        <i class="fas fa-save me-2"></i> Update Your WanderNest
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reuse the same CSS styles from new.ejs -->
+<style>
+    .create-listing-card {
+        border-radius: 15px;
+        background-color: #ffffff;
+    }
+
+    .create-listing-card h3 {
+        color: #ff385c !important;
+        font-size: 1.8rem;
+    }
+
+    .create-listing-card hr {
+        border-top: 2px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    .styled-input,
+    .styled-textarea,
+    .styled-select {
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        padding: 0.8rem 1rem;
+        transition: all 0.3s ease-in-out;
+        box-shadow: none;
+    }
+
+    .styled-input::placeholder,
+    .styled-textarea::placeholder {
+        color: #a0a0a0;
+        font-style: italic;
+    }
+
+    .styled-input-group-text {
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        color: #495057;
+    }
+
+    .styled-file-input {
+        padding: 0.8rem 1rem;
+    }
+
+    .styled-submit-btn {
+        width: 20rem !important;
+        background-color: #ff385c;
+        border-color: #ff385c;
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 8px rgba(255, 56, 92, 0.2);
+    }
+
+    .styled-submit-btn:hover {
+        background-color: #e0004f;
+        border-color: #e0004f;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(255, 56, 92, 0.3);
+    }
+
+    .form-group-with-icon label i {
+        font-size: 1.1rem;
+        color: #111111;
+    }
+</style>

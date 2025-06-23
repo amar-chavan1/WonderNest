@@ -1,0 +1,279 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="row mt-4">
+    <div class="col-12 col-lg-8 offset-lg-2">
+        <div class="card shadow-lg border-0 rounded-4 mb-4">
+            <div class="position-relative overflow-hidden" style="height: 400px; border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;">
+                <img src="<%= listing.image.url %>" class="card-img-top w-100 h-100" alt="<%= listing.title %>" style="object-fit: cover;">
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <h1 class="card-title mb-2 fw-bolder" style="color: #333;"><%= listing.title %></h1>
+                <p class="text-muted mb-4 fs-6">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    <%= listing.location %>, <%= listing.country %>
+                </p>
+
+                <hr class="mb-4">
+
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <h4 class="fw-bold mb-1" style="color: #ff385c;">
+                            <i class="fa-solid fa-indian-rupee-sign me-2"></i>
+                            <%= listing.price.toLocaleString("en-IN") %>
+                            <span class="fs-6 fw-normal text-muted">/ night</span>
+                        </h4>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="d-flex align-items-center justify-content-md-end">
+                            <div class="avatar-circle-gray me-2 flex-shrink-0">
+                                <span class="initials"><%= listing.author.username.charAt(0).toUpperCase() %></span>
+                            </div>
+                            <div>
+                                <small class="fw-bold text-dark">Hosted by: <%= listing.author.username %></small><br>
+                                <small class="text-muted">Since: <%= listing.createdAt ? new Date(listing.createdAt).toLocaleDateString() : 'Date not available' %></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+
+                <h5 class="mb-3 fw-bold" style="color: #555;">About this place:</h5>
+                <p class="card-text text-muted lh-lg mb-4">
+                    <%= listing.description %>
+                </p>
+                
+                <% if (currentUser && listing.author && listing.author._id.equals(currentUser._id)) { %>
+                    <hr class="mb-4">
+                    <div class="d-flex justify-content-end">
+                        <a href="/listings/<%= listing._id %>/edit" class="btn btn-warning me-2 rounded-pill px-4">
+                            <i class="fas fa-edit me-2"></i>Edit Listing
+                        </a>
+                        <form class="d-inline" method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                            <button class="btn btn-danger rounded-pill px-4">
+                                <i class="fas fa-trash-alt me-2"></i>Delete Listing
+                            </button>
+                        </form>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-12 col-lg-8 offset-lg-2">
+        <% if (listing.reviews && listing.reviews.length > 0) { %>
+            <div class="reviews-summary-section card shadow-lg border-0 rounded-4 p-4 mb-4">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold mb-2" style="color: #333;">Reviews</h2>
+                    <% 
+                        let totalRating = 0;
+                        listing.reviews.forEach(review => {
+                            totalRating += review.rating;
+                        });
+                        const avgRating = (totalRating / listing.reviews.length).toFixed(1);
+                    %>
+                    <h4 class="mb-0 text-muted">
+                        <%= listing.reviews.length %> Reviews &bull;
+                        <span class="ms-2">
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <% if (i <= Math.floor(avgRating)) { %>
+                                    <i class="fas fa-star text-warning"></i>
+                                <% } else if (i === Math.ceil(avgRating) && avgRating % 1 >= 0.5) { %>
+                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                <% } else { %>
+                                    <i class="far fa-star text-warning"></i>
+                                <% } %>
+                            <% } %>
+                            (<%= avgRating %>)
+                        </span>
+                    </h4>
+                </div>
+
+                <hr class="mb-4">
+
+                <% // Display the latest few reviews directly %>
+                <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+                    <% listing.reviews.slice().reverse().slice(0, 4).forEach(review => { %> <% // Show last 4 reviews %>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0 rounded-3 review-card">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex align-items-start mb-1">
+                                    <div class="review-avatar-circle me-2 flex-shrink-0">
+                                        <span class="initials"><%= review.createdBy.username.charAt(0).toUpperCase() %></span>
+                                    </div>
+                                    <div class="flex-grow-1">  <p class="card-text mb-0 text-muted fw-bold"><%= review.createdBy.username %></p>
+                                        <small class="text-muted"><%= new Date(review.createdAt).toLocaleDateString() %></small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <h6>
+                                        <% for(let i = 1; i <= 5; i++) { %>
+                                            <% if (i <= review.rating) { %>
+                                                <i class="fas fa-star text-warning small"></i>
+                                            <% } else { %>
+                                                <i class="far fa-star text-warning small"></i>
+                                            <% } %>
+                                        <% } %>
+                                    </h6>
+                                </div>
+                                <p class="card-text mb-auto text-muted flex-grow-1"><%= review.comment %></p>
+                                <% if (currentUser && review.createdBy && review.createdBy._id.equals(currentUser._id)) { %>
+                                    <div class="mt-3 text-end">
+                                        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                                <i class="fas fa-trash-alt me-1"></i>Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+
+                <% if (listing.reviews.length > 4) { %> <% // Only show button if there are more than 4 reviews %>
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-outline-primary rounded-pill px-5 py-2" data-bs-toggle="modal" data-bs-target="#allReviewsModal">
+                        View All <%= listing.reviews.length %> Reviews
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info shadow-sm border-0 rounded-4 p-4 text-center">
+                <i class="fas fa-info-circle me-2"></i>No reviews yet. Be the first to leave a review!
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<div class="modal fade" id="allReviewsModal" tabindex="-1" aria-labelledby="allReviewsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="allReviewsModalLabel" style="color: #333;">All Reviews for <%= listing.title %></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <h4 class="mb-0 text-muted">
+                        <%= listing.reviews.length %> Reviews &bull;
+                        <span class="ms-2">
+                            <%
+                                let modalTotalRating = 0;
+                                listing.reviews.forEach(review => {
+                                    modalTotalRating += review.rating;
+                                });
+                                const modalAvgRating = (modalTotalRating / listing.reviews.length).toFixed(1);
+                            %>
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <% if (i <= Math.floor(modalAvgRating)) { %>
+                                    <i class="fas fa-star text-warning"></i>
+                                <% } else if (i === Math.ceil(modalAvgRating) && modalAvgRating % 1 >= 0.5) { %>
+                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                <% } else { %>
+                                    <i class="far fa-star text-warning"></i>
+                                <% } %>
+                            <% } %>
+                            (<%= modalAvgRating %>)
+                        </span>
+                    </h4>
+                </div>
+
+                <hr class="mb-4">
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <% listing.reviews.slice().reverse().forEach(review => { %>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0 rounded-3 review-card">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex align-items-start mb-1">
+                                    <div class="review-avatar-circle me-2 flex-shrink-0">
+                                        <span class="initials"><%= review.createdBy.username.charAt(0).toUpperCase() %></span>
+                                    </div>
+                                    <div class="flex-grow-1"> <p class="card-text mb-0 text-muted fw-bold"><%= review.createdBy.username %></p>
+                                        <small class="text-muted"><%= new Date(review.createdAt).toLocaleDateString() %></small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <h6>
+                                        <% for(let i = 1; i <= 5; i++) { %>
+                                            <% if (i <= review.rating) { %>
+                                                <i class="fas fa-star text-warning small"></i>
+                                            <% } else { %>
+                                                <i class="far fa-star text-warning small"></i>
+                                            <% } %>
+                                        <% } %>
+                                    </h6>
+                                </div>
+                                <p class="card-text mb-auto text-muted flex-grow-1"><%= review.comment %></p>
+                                <% if (currentUser && review.createdBy && review.createdBy._id.equals(currentUser._id)) { %>
+                                    <div class="mt-3 text-end">
+                                        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                                <i class="fas fa-trash-alt me-1"></i>Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mb-5">
+    <div class="col-12 col-lg-8 offset-lg-2">
+        <% if (currentUser) { %>
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <h5 class="card-title fw-bold mb-3 text-secondary">Share Your Experience</h5>
+
+                <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Overall Rating</label>
+                        <div id="starRating" class="text-warning fs-3">
+                            <% for (let i = 1; i <= 5; i++) { %>
+                                <i class="fa-regular fa-star" data-value="<%= i %>"></i>
+                            <% } %>
+                        </div>
+                        <input type="hidden" name="review[rating]" id="ratingInput" value="1" required />
+                        <div class="invalid-feedback">Please select a rating.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="comment" class="form-label text-muted">Your Comment</label>
+                        <textarea class="form-control rounded-3" id="comment" name="review[comment]" rows="4"
+                            placeholder="Tell us about your stay..." required maxlength="200"></textarea>
+                        <div class="form-text"><span id="charCount">0</span>/200 characters used</div>
+                        <div class="invalid-feedback">Please enter a comment.</div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-outline-danger rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                            <i class="fas fa-paper-plane me-2"></i>Submit Review
+                        </button>
+                    </div>
+                </form>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning shadow-sm border-0 rounded-4 p-4 text-center">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                You must be logged in to leave a review. 
+                <a href="/login" class="alert-link fw-semibold" style="color: #ff385c;">Log In Here</a>
+            </div>
+        <% } %>
+    </div>
+</div>

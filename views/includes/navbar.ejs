@@ -1,0 +1,185 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm py-3">
+    <div class="container-fluid">
+        
+        <a class="navbar-brand d-flex align-items-center" href="/listings">
+            <i class="fa-solid fa-compass" style="color: #ff385c; font-size: 2rem;"></i>
+            <span class="ms-2 fw-bold" style="color: #ff385c; font-size: 1.25rem;">WanderNest</span>
+        </a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/listings">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/listings/new">Host a Place</a>
+                </li>
+            </ul>
+
+            <% const isIndexPage = typeof showSearch !== 'undefined' && showSearch; %>
+            <% if (isIndexPage) { %>
+                <div class="d-none d-lg-flex flex-grow-1 justify-content-center"> 
+                    <form 
+                        class="d-flex airbnb-search-bar-lg shadow-sm" 
+                        method="GET" 
+                        action="/listings"
+                        role="search"
+                    >
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                class="form-control airbnb-search-input border-0 ps-4" 
+                                placeholder="search by name,price,location or country..." 
+                                aria-label="Where"
+                                name="q"
+                                value="<%= query || '' %>"
+                            >
+                            <button class="btn airbnb-search-button rounded-pill ms-2" type="submit">
+                                <i class="fa-solid fa-magnifying-glass me-2"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            <% } %>
+
+            <div class="d-flex align-items-center ms-auto">
+                <div class="nav-item dropdown">
+                    <% if(currentUser) { %>
+                        <a class="nav-link dropdown-toggle d-flex align-items-center navbar-user-compact rounded-pill py-2 px-3 border" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
+                            <div class="avatar-circle-gray flex-shrink-0 me-2">
+                                <span class="initials">
+                                    <%= currentUser.username.charAt(0).toUpperCase() %>
+                                </span>
+                            </div>
+                            <i class="fa-solid fa-bars"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/profile">
+                                <i class="fas fa-user me-2"></i> My Profile
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout">
+                                <i class="fas fa-sign-out-alt me-2"></i> Sign Out
+                            </a></li>
+                        </ul>
+                    <% } else { %>
+                        <button class="btn btn-outline-dark me-2 rounded-pill px-4 py-2" onclick="location.href='/login'">
+                            Login
+                        </button>
+                        <button class="btn btn-dark rounded-pill px-4 py-2" onclick="location.href='/register'">
+                            Sign Up
+                        </button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<% if (isIndexPage) { %>
+    <div class="container d-lg-none my-3"> <form 
+            class="d-flex airbnb-search-bar-sm shadow-sm w-100 mx-auto" 
+            method="GET" 
+            action="/listings"
+            role="search"
+        >
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    class="form-control airbnb-search-input border-0 ps-4" 
+                    placeholder="search by name,price,location or country..." 
+                    aria-label="Where"
+                    name="q"
+                    value="<%= query || '' %>"
+                >
+                <button class="btn airbnb-search-button rounded-pill ms-2" type="submit">
+                    <i class="fa-solid fa-magnifying-glass me-2"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+<% } %>
+
+
+<style>
+    /* Base styles for the search bar, applied to both large and small versions */
+    .airbnb-search-bar-lg,
+    .airbnb-search-bar-sm {
+        border: 1px solid #ddd;
+        border-radius: 50px; /* Highly rounded corners */
+        padding: 5px 10px; /* Internal padding */
+        background-color: #fff;
+        width: 100%; /* Ensures responsiveness within its parent */
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between; 
+        transition: box-shadow 0.2s ease-in-out; 
+    }
+
+    .airbnb-search-bar-lg:hover,
+    .airbnb-search-bar-sm:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    }
+
+    .airbnb-search-input {
+        flex-grow: 1; 
+        padding-left: 15px !important; 
+        border: none !important; 
+        box-shadow: none !important; 
+        background-color: transparent !important; 
+        font-size: 0.95rem; 
+    }
+
+    .airbnb-search-input:focus {
+        outline: none !important; 
+    }
+
+    .airbnb-search-button {
+        background-color: #ff385c; /* Airbnb brand color */
+        color: white;
+        border: none;
+        padding: 8px 18px; /* Adjust padding for button size */
+        border-radius: 50px; /* Match outer rounding */
+        font-weight: 600; 
+        display: flex; 
+        align-items: center;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .airbnb-search-button:hover {
+        background-color: #e0004f; 
+        color: white; 
+    }
+
+    /* Specific styling for the LARGE screen search bar */
+    .airbnb-search-bar-lg {
+        max-width: 500px; /* This will make it centered within its flex-grow-1 container */
+        /* If you want it slightly off-center to the left, you can use: */
+        margin-right: auto; /* Pushes it to the left */
+        margin-left: 150px; /* Adjust this value to control how much it shifts left */
+        /* You might need to experiment with the margin-left value to get the exact offset you desire */
+    }
+
+    /* Specific styling for the SMALL screen search bar */
+    .airbnb-search-bar-sm {
+        max-width: 100%; /* Ensures it takes full width on small screens */
+        padding: 5px 8px; /* Slightly less padding on mobile */
+    }
+
+    @media (max-width: 991.98px) { /* Adjustments for small and medium screens */
+        .airbnb-search-input {
+            font-size: 0.9rem; 
+            padding-left: 10px !important;
+        }
+        .airbnb-search-button {
+            padding: 7px 14px; 
+            font-size: 0.85rem;
+        }
+        .airbnb-search-button .fa-magnifying-glass {
+            margin-right: 0; 
+        }
+    }
+</style>

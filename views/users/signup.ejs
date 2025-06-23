@@ -1,0 +1,66 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 12rem);"> 
+    <div class="row w-100 justify-content-center"> 
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5"> 
+            <div class="card shadow-lg border-0 rounded-4 my-5"> 
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="card-title text-center mb-4 fw-bold" style="color: #ff385c;">Join WanderNest</h2>
+                    <p class="text-center text-muted mb-4">Start your journey with us today!</p>
+
+                    <form action="/register" method="POST" class="needs-validation" novalidate>
+                        <div class="mb-3 form-floating">
+                            <input class="form-control rounded-3" type="text" id="username" name="username" placeholder="Username" required autofocus>
+                            <label for="username">Username</label>
+                            <div class="invalid-feedback">
+                                Please provide a username.
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-floating">
+                            <input class="form-control rounded-3" type="email" id="email" name="email" placeholder="name@example.com" required>
+                            <label for="email">Email address</label>
+                            <div class="invalid-feedback">
+                                Please provide a valid email.
+                            </div>
+                        </div>
+
+                        <div class="mb-4 form-floating">
+                            <input class="form-control rounded-3" type="password" id="password" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                            <div class="invalid-feedback">
+                                Please create a strong password.
+                            </div>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button class="btn btn-lg fw-bold rounded-pill" style="background-color: #ff385c; color: white; border-color: #ff385c;">Register</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted mb-0">Already have an account? <a href="/login" class="text-decoration-none" style="color: #ff385c; font-weight: 500;">Log in here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
