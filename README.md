@@ -57,7 +57,7 @@ Experience WanderLust live! Visit the deployed application:
 
 ## 📸 Screenshots
 
-[main page](https://github.com/user-attachments/assets/353292de-3b24-4ef6-8be5-660ece0fd047)
+![main page](https://github.com/user-attachments/assets/353292de-3b24-4ef6-8be5-660ece0fd047)
 ![main page](https://github.com/user-attachments/assets/6a8fbf9d-a5f8-46ac-b157-9c83a0bac766)
 ![login page](https://github.com/user-attachments/assets/8a3ebff4-d291-4e55-a353-301d6dedaea0)
 ![details page](https://github.com/user-attachments/assets/81fa07c3-4d86-42c7-bbd4-3b778e538a2d)
