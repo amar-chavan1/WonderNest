@@ -121,7 +121,7 @@
 </div>
 
 <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4">
-    <% for(let listing of listings) { %> 
+    <% listings.slice().reverse().forEach(listing => { %> 
         <a href="/listings/<%= listing._id %>" class="col listing-card-link" data-price="<%= listing.price %>"> 
             <div class="card listing-card">
                 <img src="<%=listing.image.url%>" class="card-img-top" alt="listing image">
@@ -136,5 +136,5 @@
                 </div>
             </div>  
         </a>
-    <%}%>
-</div>
+    <% }) %>
+</div> 
